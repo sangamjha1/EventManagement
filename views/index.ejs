@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventFlow | Competitions, Hackathons, Workshops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div>
+            <strong>EventFlow</strong>
+            <span>Compete. Build. Grow.</span>
+          </div>
+        </div>
+        <nav class="main-nav" id="mainNav">
+          <button class="tab active" data-tab="discover">Discover</button>
+          <button class="tab" data-tab="myRegs">My Registrations</button>
+          <button class="tab" data-tab="profile">Profile</button>
+          <button class="tab" data-tab="organizer">Organizer Studio</button>
+        </nav>
+        <div class="actions">
+          <button id="openLogin" class="btn ghost">Login</button>
+          <button id="openSignup" class="btn primary">Create Account</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container page-wrap">
+      <section id="discoverTab" class="tab-panel">
+        <section class="hero">
+          <article class="hero-main card">
+            <p class="eyebrow">Challenge Platform</p>
+            <h1>Find the right hackathons, workshops, and competitions in one place.</h1>
+            <p>
+              Browse high-quality events, register as a team or individual, track submissions, and build your event profile.
+            </p>
+            <div class="hero-cta">
+              <button class="btn primary" id="scrollToEvents">Explore Opportunities</button>
+              <button class="btn ghost" id="openLoginHero">Organizer Access</button>
+            </div>
+          </article>
+          <article class="hero-side card">
+            <h3>Platform Pulse</h3>
+            <div class="metric-grid">
+              <div><h2 id="metricEvents">0</h2><p>Live Opportunities</p></div>
+              <div><h2 id="metricRegs">0</h2><p>Total Applications</p></div>
+              <div><h2 id="metricFavs">0</h2><p>Saved</p></div>
+              <div><h2 id="metricFeatured">0</h2><p>Featured</p></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="featured-strip card">
+          <div class="section-head">
+            <h2>Trending Now</h2>
+            <span>Most applied opportunities</span>
+          </div>
+          <div id="featuredRow" class="featured-row"></div>
+        </section>
+
+        <section class="filters card" id="eventsStart">
+          <input id="searchInput" type="text" placeholder="Search events, categories, location, eligibility" />
+          <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="Hackathon">Hackathon</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Seminar">Seminar</option>
+            <option value="Conference">Conference</option>
+            <option value="Networking">Networking</option>
+            <option value="Case Study">Case Study</option>
+          </select>
+          <select id="modeFilter">
+            <option value="all">All Modes</option>
+            <option value="Online">Online</option>
+            <option value="Offline">Offline</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+          <input id="dateFilter" type="date" />
+          <button id="clearFilters" class="btn soft">Reset</button>
+        </section>
+
+        <section>
+          <div class="section-head">
+            <h2>All Opportunities</h2>
+            <span id="eventCount">0 results</span>
+          </div>
+          <div id="eventGrid" class="event-grid"></div>
+        </section>
+      </section>
+
+      <section id="myRegsTab" class="tab-panel hidden">
+        <article class="card my-reg-card">
+          <div class="section-head">
+            <h2>My Registrations</h2>
+            <span id="myRegsCaption">Track your applied events</span>
+          </div>
+          <p id="myRegsHint" class="event-meta">Login as participant to view your registrations.</p>
+          <div id="myRegsList"></div>
+        </article>
+      </section>
+
+      <section id="profileTab" class="tab-panel hidden">
+        <article class="card my-reg-card">
+          <div class="section-head">
+            <h2>My Profile</h2>
+            <span id="profileRole">Guest</span>
+          </div>
+          <p id="profileHint" class="event-meta">Login to manage your profile.</p>
+          <form id="profileForm" class="auth-form hidden">
+            <input name="name" placeholder="Full name" required />
+            <div class="grid-2">
+              <input name="phone" placeholder="Phone" />
+              <input name="institution" placeholder="Institute / Organization" />
+            </div>
+            <div class="grid-2">
+              <input name="city" placeholder="City" />
+              <input name="country" placeholder="Country" />
+            </div>
+            <input name="linkedin" placeholder="LinkedIn URL" />
+            <div id="orgOnlyFields" class="grid-2 hidden">
+              <input name="companyName" placeholder="Company name" />
+              <input name="designation" placeholder="Your designation" />
+              <input name="companyWebsite" placeholder="Company website" />
+            </div>
+            <button class="btn primary" type="submit">Save Profile</button>
+          </form>
+        </article>
+      </section>
+
+      <section id="organizerTab" class="tab-panel hidden">
+        <section id="organizerPanel" class="card organizer hidden">
+          <div class="section-head">
+            <h2>Organizer Studio</h2>
+            <button id="logoutOrganizer" class="btn ghost">Logout</button>
+          </div>
+
+          <div class="organizer-metrics" id="organizerMetrics"></div>
+
+          <form id="createEventForm" class="create-form card-soft">
+            <h3>Create New Opportunity</h3>
+            <div class="grid-2">
+              <input name="title" placeholder="Event title" required />
+              <input name="category" placeholder="Category" required />
+            </div>
+            <textarea name="description" placeholder="Detailed description" required></textarea>
+            <div class="grid-3">
+              <input name="location" placeholder="Location" required />
+              <select name="mode">
+                <option>Online</option>
+                <option>Offline</option>
+                <option>Hybrid</option>
+              </select>
+              <input name="difficulty" placeholder="Difficulty (Beginner/Intermediate/Advanced)" />
+            </div>
+            <div class="grid-3">
+              <input type="number" min="1" name="capacity" placeholder="Capacity" required />
+              <input type="number" min="0" name="fee" placeholder="Registration fee" />
+              <input type="number" min="1" name="maxTeamSize" placeholder="Max team size" />
+            </div>
+            <div class="grid-2">
+              <input name="prizePool" placeholder="Prize pool (e.g. INR 50,000 + Internship)">
+              <input name="eligibility" placeholder="Eligibility (e.g. BTech 2nd+ year)">
+            </div>
+            <div class="grid-2">
+              <input name="bannerUrl" placeholder="Banner image URL (optional)">
+              <select name="status">
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+            <div class="grid-3">
+              <input type="date" name="eventDate" required />
+              <input type="time" name="startTime" required />
+              <input type="time" name="endTime" required />
+            </div>
+            <div class="grid-2">
+              <label>
+                Registration deadline
+                <input type="date" name="registrationDeadline" />
+              </label>
+              <div></div>
+            </div>
+            <button class="btn primary" type="submit">Publish Opportunity</button>
+          </form>
+
+          <div>
+            <div class="section-head">
+              <h3>Your Opportunities</h3>
+              <span>Manage entries and attendance</span>
+            </div>
+            <div id="myEvents" class="my-events"></div>
+          </div>
+        </section>
+
+        <section id="organizerGate" class="card">
+          <h3>Organizer Account Required</h3>
+          <p>Create and manage opportunities, monitor applicants, and run live check-ins.</p>
+          <div class="hero-cta">
+            <button class="btn primary" id="openLoginStudio">Login</button>
+            <button class="btn ghost" id="openSignupStudio">Create Account</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="eventDetailModal" class="modal hidden">
+      <div class="modal-card large">
+        <button class="close" data-close="eventDetailModal">x</button>
+        <div id="eventDetailContent"></div>
+      </div>
+    </div>
+
+    <div id="authModal" class="modal hidden">
+      <div class="modal-card">
+        <button class="close" data-close="authModal">x</button>
+        <form id="authForm" class="auth-form">
+          <h3 id="authTitle">Login</h3>
+          <input name="name" id="nameField" placeholder="Full name" class="hidden" />
+          <select name="role" id="roleField">
+            <option value="participant">Participant</option>
+            <option value="organizer">Organizer</option>
+          </select>
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password (min 8 chars)" required />
+          <div id="signupFields" class="hidden">
+            <input name="phone" placeholder="Phone" />
+            <input name="institution" placeholder="Institute / Organization" />
+            <div class="grid-2">
+              <input name="city" placeholder="City" />
+              <input name="country" placeholder="Country" />
+            </div>
+            <input name="linkedin" placeholder="LinkedIn URL" />
+            <div id="orgSignupFields" class="hidden">
+              <input name="companyName" placeholder="Company name (required for organizer)" />
+              <input name="designation" placeholder="Designation (required for organizer)" />
+              <input name="companyWebsite" placeholder="Company website" />
+            </div>
+          </div>
+          <button class="btn primary" type="submit">Continue</button>
+          <button type="button" id="openForgot" class="btn ghost">Forgot Password</button>
+          <button type="button" id="resendVerification" class="btn ghost">Resend Verification Email</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="registerModal" class="modal hidden">
+      <div class="modal-card">
+        <button class="close" data-close="registerModal">x</button>
+        <form id="registerForm" class="auth-form">
+          <h3>Apply to Opportunity</h3>
+          <input type="hidden" name="eventId" />
+          <input name="attendeePhone" placeholder="Phone" />
+          <div class="grid-2">
+            <input name="teamName" placeholder="Team name (optional)" />
+            <input type="number" min="1" name="teamSize" placeholder="Team size" />
+          </div>
+          <div class="grid-2">
+            <input name="institute" placeholder="Institute / Company" />
+            <input name="role" placeholder="Role (Student, Developer, etc.)" />
+          </div>
+          <textarea name="notes" placeholder="Why are you applying? (optional)"></textarea>
+          <button class="btn primary" type="submit">Submit Application</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="forgotModal" class="modal hidden">
+      <div class="modal-card">
+        <button class="close" data-close="forgotModal">x</button>
+        <form id="forgotForm" class="auth-form">
+          <h3>Forgot Password</h3>
+          <input type="email" name="email" placeholder="Your account email" required />
+          <button class="btn primary" type="submit">Send Reset Link</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="resetModal" class="modal hidden">
+      <div class="modal-card">
+        <button class="close" data-close="resetModal">x</button>
+        <form id="resetForm" class="auth-form">
+          <h3>Reset Password</h3>
+          <input name="token" id="resetTokenInput" placeholder="Reset token" required />
+          <input type="password" name="password" placeholder="New password" required />
+          <button class="btn primary" type="submit">Update Password</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="feedbackModal" class="modal hidden">
+      <div class="modal-card">
+        <button class="close" data-close="feedbackModal">x</button>
+        <form id="feedbackForm" class="auth-form">
+          <h3>Rate This Event</h3>
+          <input type="hidden" name="eventId" />
+          <input type="email" name="attendeeEmail" placeholder="Your registration email" required />
+          <select name="rating" required>
+            <option value="">Choose rating</option>
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Good</option>
+            <option value="3">3 - Average</option>
+            <option value="2">2 - Poor</option>
+            <option value="1">1 - Very Poor</option>
+          </select>
+          <textarea name="comment" placeholder="Feedback comments"></textarea>
+          <button class="btn primary" type="submit">Submit Feedback</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>
