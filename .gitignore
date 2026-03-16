@@ -2,8 +2,6 @@ node_modules
 client/node_modules
 .env
 .env.*
-!.env.example
-!client/.env.example
 npm-debug.log*
 *.log
 logs
